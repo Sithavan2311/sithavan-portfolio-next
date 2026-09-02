@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
+import Premium from "@/components/Premium";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
 import Education from "@/components/Education";
@@ -18,6 +19,9 @@ export default function Home() {
       </ScrollSection>
       <ScrollSection>
         <Skills />
+      </ScrollSection>
+      <ScrollSection>
+        <Premium />
       </ScrollSection>
       <ScrollSection>
         <Experience />
