@@ -172,17 +172,23 @@ function FloatingCrystals() {
   );
 }
 
+function generateDustPositions(count: number) {
+  let seed = 1337;
+  const rand = () => {
+    seed = (seed * 16807) % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+  const positions = new Float32Array(count * 3);
+  for (let i = 0; i < count * 3; i += 3) {
+    positions[i] = (rand() - 0.5) * 30;
+    positions[i + 1] = (rand() - 0.5) * 18;
+    positions[i + 2] = (rand() - 0.5) * 20 - 3;
+  }
+  return positions;
+}
+
 function DustParticles() {
-  const particles = useMemo(() => {
-    const count = 600;
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < count * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 30;
-      positions[i + 1] = (Math.random() - 0.5) * 18;
-      positions[i + 2] = (Math.random() - 0.5) * 20 - 3;
-    }
-    return positions;
-  }, []);
+  const particles = useMemo(() => generateDustPositions(600), []);
   const pointsRef = useRef<THREE.Points>(null);
   useFrame((state) => {
     if (!pointsRef.current) return;

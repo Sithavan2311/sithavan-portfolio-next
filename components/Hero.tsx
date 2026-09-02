@@ -1,4 +1,5 @@
 import Image from "next/image";
+import TiltCard from "./TiltCard";
 
 export default function Hero() {
   return (
@@ -46,22 +47,24 @@ export default function Hero() {
         </div>
 
         <div className="flex justify-center">
-          <div className="relative rounded-3xl bg-zinc-900/70 p-3 shadow-2xl shadow-red-950/40 ring-1 ring-red-900/40 backdrop-blur-sm animate-float glow-pulse">
-            <Image
-              src="/images/avatar.jpg"
-              alt="Sithavan S Developer Avatar"
-              width={420}
-              height={420}
-              className="rounded-2xl object-cover"
-              priority
-            />
-            <div className="absolute -right-4 top-8 rounded-xl bg-black/90 px-4 py-2 text-sm font-semibold text-red-400 shadow-lg ring-1 ring-red-900/50">
-              ⚡ Java / Spring
+          <TiltCard intensity={12}>
+            <div className="relative rounded-3xl bg-zinc-900/70 p-3 shadow-2xl shadow-red-950/40 ring-1 ring-red-900/40 backdrop-blur-sm animate-float glow-pulse">
+              <Image
+                src="/images/avatar.jpg"
+                alt="Sithavan S Developer Avatar"
+                width={420}
+                height={420}
+                className="rounded-2xl object-cover"
+                priority
+              />
+              <div className="absolute -right-4 top-8 rounded-xl bg-black/90 px-4 py-2 text-sm font-semibold text-red-400 shadow-lg ring-1 ring-red-900/50">
+                ⚡ Java / Spring
+              </div>
+              <div className="absolute -left-4 bottom-16 rounded-xl bg-black/90 px-4 py-2 text-sm font-semibold text-red-400 shadow-lg ring-1 ring-red-900/50">
+                ⚛️ Next.js / React
+              </div>
             </div>
-            <div className="absolute -left-4 bottom-16 rounded-xl bg-black/90 px-4 py-2 text-sm font-semibold text-red-400 shadow-lg ring-1 ring-red-900/50">
-              ⚛️ Next.js / React
-            </div>
-          </div>
+          </TiltCard>
         </div>
       </div>
     </section>
