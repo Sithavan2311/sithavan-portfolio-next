@@ -26,25 +26,25 @@ export default function Experience() {
   return (
     <section id="experience" className="section-anchor mx-auto max-w-6xl px-6 py-24">
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
-          Professional <span className="text-sky-500">Experience</span>
+        <h2 className="text-3xl font-bold text-white md:text-4xl">
+          Professional <span className="text-red-500">Experience</span>
         </h2>
-        <p className="mt-3 text-slate-500">My hands-on industry background building production software</p>
+        <p className="mt-3 text-zinc-500">My hands-on industry background building production software</p>
       </div>
 
-      <div className="relative mx-auto mt-14 max-w-3xl border-l-2 border-slate-200 pl-8">
+      <div className="relative mx-auto mt-14 max-w-3xl border-l-2 border-red-900/60 pl-8">
         {EXPERIENCES.map((exp, i) => (
           <div key={i} className="relative pb-12 last:pb-0">
             <span className="absolute -left-[37px] top-1 flex h-4 w-4 items-center justify-center">
-              <span className="h-4 w-4 rounded-full bg-sky-500 ring-4 ring-sky-100" />
+              <span className="h-4 w-4 rounded-full bg-red-600 shadow-[0_0_12px_rgba(239,68,68,0.7)] ring-4 ring-red-950/60" />
             </span>
-            <span className="text-sm font-medium text-sky-600">{exp.date}</span>
-            <h3 className="mt-2 text-xl font-bold text-slate-900">{exp.role}</h3>
-            <p className="mt-1 font-medium text-slate-500">{exp.company}</p>
+            <span className="text-sm font-medium text-red-400">{exp.date}</span>
+            <h3 className="mt-2 text-xl font-bold text-white">{exp.role}</h3>
+            <p className="mt-1 font-medium text-zinc-400">{exp.company}</p>
             <ul className="mt-4 space-y-3">
               {exp.points.map((point, j) => (
-                <li key={j} className="flex gap-3 text-slate-600">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400" />
+                <li key={j} className="flex gap-3 text-zinc-400">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-500/70" />
                   <span className="leading-relaxed">{point}</span>
                 </li>
               ))}

@@ -36,8 +36,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-white">
+      <body className="min-h-full flex flex-col bg-black text-zinc-100">
         <ThreeDBackground />
+        <div className="background-glow pointer-events-none fixed inset-0 z-0" />
         <div className="relative z-10 flex min-h-full flex-col">
           <Navbar />
           <main className="flex-1">{children}</main>

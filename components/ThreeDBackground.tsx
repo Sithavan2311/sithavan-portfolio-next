@@ -1,73 +1,152 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Stars, Sparkles } from "@react-three/drei";
+import { Float, Stars, Sparkles, RoundedBox } from "@react-three/drei";
 import { useRef, Suspense, useMemo } from "react";
 import * as THREE from "three";
+
+const BLOOD_RED = "#dc2626";
+const HOT_RED = "#ef4444";
+const DEEP_RED = "#7f1d1d";
+const DARK_PLASMA = "#991b1b";
 
 function OrbitingRing({
   radius,
   color,
   speed,
   tilt,
+  nodeCount = 24,
+  nodeSize = 0.06,
 }: {
   radius: number;
   color: string;
   speed: number;
   tilt: number;
+  nodeCount?: number;
+  nodeSize?: number;
 }) {
-  const ref = useRef<THREE.Group>(null);
+  const groupRef = useRef<THREE.Group>(null);
+  const nodes = useMemo(() => {
+    const arr: { angle: number; offset: number }[] = [];
+    for (let i = 0; i < nodeCount; i++) {
+      arr.push({ angle: (i / nodeCount) * Math.PI * 2, offset: (i % 2) * nodeSize * 2 });
+    }
+    return arr;
+  }, [nodeCount, nodeSize]);
+
   useFrame((state) => {
-    if (!ref.current) return;
-    ref.current.rotation.z = state.clock.elapsedTime * speed;
+    if (!groupRef.current) return;
+    groupRef.current.rotation.y = state.clock.elapsedTime * speed;
   });
+
   return (
-    <group ref={ref} rotation={[tilt, 0.4, 0]}>
+    <group ref={groupRef} rotation={[tilt, 0.4, 0]}>
       <mesh>
-        <torusGeometry args={[radius, 0.03, 16, 128]} />
-        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.9} transparent opacity={0.85} />
+        <torusGeometry args={[radius, 0.015, 12, 200]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.4} transparent opacity={0.6} />
       </mesh>
       <mesh>
-        <torusGeometry args={[radius, 0.3, 8, 64]} />
-        <meshBasicMaterial color={color} transparent opacity={0.08} wireframe />
+        <torusGeometry args={[radius, nodeSize, 8, 80]} />
+        <meshBasicMaterial color={color} transparent opacity={0.25} wireframe />
       </mesh>
+      {nodes.map((node, i) => (
+        <mesh key={i} position={[Math.cos(node.angle) * radius, node.offset, Math.sin(node.angle) * radius]}>
+          <sphereGeometry args={[nodeSize, 12, 12]} />
+          <meshStandardMaterial
+            color={color}
+            emissive={color}
+            emissiveIntensity={2}
+            roughness={0.2}
+            metalness={0.4}
+          />
+        </mesh>
+      ))}
     </group>
   );
 }
 
 function CentralCore() {
-  const ref = useRef<THREE.Group>(null);
+  const groupRef = useRef<THREE.Group>(null);
+  const innerRef = useRef<THREE.Mesh>(null);
   useFrame((state, delta) => {
-    if (!ref.current) return;
-    ref.current.rotation.y += delta * 0.25;
+    if (!groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.2;
+    groupRef.current.rotation.x += delta * 0.05;
+    if (innerRef.current) {
+      const pulse = 1 + Math.sin(state.clock.elapsedTime * 2.4) * 0.08;
+      innerRef.current.scale.setScalar(pulse);
+    }
   });
   return (
-    <group ref={ref}>
-      <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-        <mesh>
-          <icosahedronGeometry args={[1.4, 1]} />
-          <meshStandardMaterial color="#0ea5e9" wireframe transparent opacity={0.9} />
-        </mesh>
+    <group ref={groupRef} position={[0, 0, 0]}>
+      <Float speed={1.8} rotationIntensity={0.3} floatIntensity={1.2}>
+        <RoundedBox args={[1.6, 1.6, 1.6]} radius={0.25} smoothness={4}>
+          <meshStandardMaterial
+            color={DEEP_RED}
+            emissive={DARK_PLASMA}
+            emissiveIntensity={0.6}
+            roughness={0.15}
+            metalness={0.8}
+            wireframe
+            transparent
+            opacity={0.85}
+          />
+        </RoundedBox>
       </Float>
-      <mesh>
-        <icosahedronGeometry args={[0.55, 0]} />
-        <meshStandardMaterial color="#0ea5e9" emissive="#0ea5e9" emissiveIntensity={0.7} roughness={0.2} />
+      <mesh ref={innerRef}>
+        <icosahedronGeometry args={[0.62, 0]} />
+        <meshStandardMaterial
+          color={HOT_RED}
+          emissive={HOT_RED}
+          emissiveIntensity={1.8}
+          roughness={0.1}
+          metalness={0.3}
+        />
       </mesh>
-      <pointLight intensity={1.5} distance={10} color="#0ea5e9" />
+      <mesh>
+        <icosahedronGeometry args={[0.98, 0]} />
+        <meshBasicMaterial color={BLOOD_RED} wireframe transparent opacity={0.28} />
+      </mesh>
+      <pointLight intensity={4} distance={14} color={HOT_RED} />
+      <pointLight intensity={1.6} distance={8} color="#ffffff" />
     </group>
   );
 }
 
-function FloatingShapes() {
+function TorusKnotRing() {
+  const ref = useRef<THREE.Mesh>(null);
+  useFrame((state, delta) => {
+    if (!ref.current) return;
+    ref.current.rotation.x += delta * 0.12;
+    ref.current.rotation.y += delta * 0.2;
+  });
+  return (
+    <mesh ref={ref} position={[0, 0, -2.5]}>
+      <torusKnotGeometry args={[2.6, 0.35, 128, 24, 3, 5]} />
+      <meshStandardMaterial
+        color={DEEP_RED}
+        emissive={DARK_PLASMA}
+        emissiveIntensity={0.35}
+        wireframe
+        transparent
+        opacity={0.5}
+        metalness={0.6}
+        roughness={0.3}
+      />
+    </mesh>
+  );
+}
+
+function FloatingCrystals() {
   const shapes = useMemo(
     () => [
-      { position: [-6.5, 2.5, -3], color: "#f472b6", size: 0.55, shape: "diamond" as const },
-      { position: [6.5, 2.5, -2], color: "#34d399", size: 0.6, shape: "sphere" as const },
-      { position: [-7, -2.5, -1], color: "#fbbf24", size: 0.45, shape: "torus" as const },
-      { position: [6.8, -2.5, -4], color: "#818cf8", size: 0.5, shape: "diamond" as const },
-      { position: [0, 3.8, -5], color: "#22d3ee", size: 0.4, shape: "sphere" as const },
-      { position: [-3.5, -3.5, -2], color: "#f97316", size: 0.4, shape: "torus" as const },
-      { position: [3.5, 3.6, -5], color: "#a78bfa", size: 0.5, shape: "diamond" as const },
+      { position: [-7, 2.8, -3] as const, color: HOT_RED, size: 0.5 },
+      { position: [7, 2.8, -2] as const, color: BLOOD_RED, size: 0.55 },
+      { position: [-7.5, -2.8, -1] as const, color: "#f87171", size: 0.4 },
+      { position: [7.2, -2.8, -4] as const, color: DARK_PLASMA, size: 0.5 },
+      { position: [-4, 3.9, -5] as const, color: HOT_RED, size: 0.38 },
+      { position: [4.2, 3.9, -5] as const, color: "#b91c1c", size: 0.45 },
+      { position: [0, -3.6, -3] as const, color: "#fca5a5", size: 0.35 },
     ],
     []
   );
@@ -75,21 +154,16 @@ function FloatingShapes() {
   return (
     <>
       {shapes.map((s, i) => (
-        <Float key={i} speed={1.4 + i * 0.3} rotationIntensity={1.2} floatIntensity={2.5}>
-          <mesh position={s.position as [number, number, number]}>
-            {s.shape === "sphere" ? (
-              <sphereGeometry args={[s.size, 24, 24]} />
-            ) : s.shape === "torus" ? (
-              <torusGeometry args={[s.size, s.size / 2.5, 16, 48]} />
-            ) : (
-              <octahedronGeometry args={[s.size]} />
-            )}
+        <Float key={i} speed={1.2 + i * 0.25} rotationIntensity={1.4} floatIntensity={2.6}>
+          <mesh position={s.position}>
+            <octahedronGeometry args={[s.size]} />
             <meshStandardMaterial
               color={s.color}
-              roughness={0.25}
-              metalness={0.2}
+              roughness={0.1}
+              metalness={0.9}
               emissive={s.color}
-              emissiveIntensity={0.25}
+              emissiveIntensity={0.45}
+              flatShading
             />
           </mesh>
         </Float>
@@ -98,48 +172,69 @@ function FloatingShapes() {
   );
 }
 
-function RotatingRingGlow() {
-  const ref = useRef<THREE.Mesh>(null);
-  useFrame((state, delta) => {
-    if (!ref.current) return;
-    ref.current.rotation.x += delta * 0.5;
-    ref.current.rotation.y += delta * 0.3;
+function DustParticles() {
+  const particles = useMemo(() => {
+    const count = 600;
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count * 3; i += 3) {
+      positions[i] = (Math.random() - 0.5) * 30;
+      positions[i + 1] = (Math.random() - 0.5) * 18;
+      positions[i + 2] = (Math.random() - 0.5) * 20 - 3;
+    }
+    return positions;
+  }, []);
+  const pointsRef = useRef<THREE.Points>(null);
+  useFrame((state) => {
+    if (!pointsRef.current) return;
+    pointsRef.current.rotation.y = state.clock.elapsedTime * 0.015;
   });
   return (
-    <mesh ref={ref} position={[0, 0, -3]}>
-      <torusGeometry args={[5.5, 0.02, 16, 128]} />
-      <meshBasicMaterial color="#0ea5e9" transparent opacity={0.1} />
-    </mesh>
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[particles, 3]} />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.045}
+        color={HOT_RED}
+        transparent
+        opacity={0.6}
+        sizeAttenuation
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+      />
+    </points>
   );
 }
 
 function Scene() {
   return (
     <>
-      <ambientLight intensity={0.85} />
-      <directionalLight position={[5, 5, 5]} intensity={1.4} color="#ffffff" />
-      <pointLight position={[-5, -3, 3]} intensity={0.8} color="#f472b6" />
-      <pointLight position={[5, 3, -3]} intensity={0.8} color="#34d399" />
+      <fog attach="fog" args={["#000000", 9, 22]} />
+      <ambientLight intensity={0.35} color="#ffffff" />
+      <directionalLight position={[6, 6, 6]} intensity={1.2} color="#ffe4e6" />
+      <pointLight position={[-6, -4, 4]} intensity={1} color={HOT_RED} />
+      <pointLight position={[6, 4, -4]} intensity={0.9} color={BLOOD_RED} />
       <CentralCore />
-      <OrbitingRing radius={2.6} color="#0ea5e9" speed={0.45} tilt={0.6} />
-      <OrbitingRing radius={3.4} color="#f472b6" speed={-0.35} tilt={1.1} />
-      <OrbitingRing radius={4.2} color="#34d399" speed={0.3} tilt={0.3} />
-      <RotatingRingGlow />
-      <FloatingShapes />
-      <Stars radius={70} depth={50} count={2500} factor={4} saturation={0.6} fade speed={1} />
-      <Sparkles count={180} scale={14} size={3} speed={0.5} color="#0ea5e9" />
-      <Sparkles count={100} scale={10} size={2} speed={0.4} color="#f472b6" />
+      <OrbitingRing radius={2.7} color={HOT_RED} speed={0.5} tilt={0.55} nodeCount={28} />
+      <OrbitingRing radius={3.5} color={BLOOD_RED} speed={-0.38} tilt={1.15} nodeCount={34} nodeSize={0.05} />
+      <OrbitingRing radius={4.4} color={DARK_PLASMA} speed={0.3} tilt={0.25} nodeCount={40} nodeSize={0.04} />
+      <TorusKnotRing />
+      <FloatingCrystals />
+      <DustParticles />
+      <Stars radius={80} depth={50} count={3000} factor={4} saturation={0} fade speed={0.8} />
+      <Sparkles count={160} scale={15} size={3} speed={0.45} color={HOT_RED} />
+      <Sparkles count={90} scale={11} size={2.2} speed={0.35} color="#ffffff" />
     </>
   );
 }
 
 export default function ThreeDBackground() {
   return (
-    <div className="fixed inset-0 z-0">
+    <div className="fixed inset-0 z-0 bg-black">
       <Canvas
-        camera={{ position: [0, 0, 8], fov: 50 }}
+        camera={{ position: [0, 0, 8.5], fov: 50 }}
         dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true }}
+        gl={{ antialias: true, alpha: false }}
       >
         <Suspense fallback={null}>
           <Scene />

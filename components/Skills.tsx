@@ -34,10 +34,10 @@ export default function Skills() {
   return (
     <section id="skills" className="section-anchor mx-auto max-w-6xl px-6 py-24">
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
-          Core <span className="text-sky-500">Competencies</span>
+        <h2 className="text-3xl font-bold text-white md:text-4xl">
+          Core <span className="text-red-500">Competencies</span>
         </h2>
-        <p className="mt-3 text-slate-500">Technologies and tools I use to build robust software solutions</p>
+        <p className="mt-3 text-zinc-500">Technologies and tools I use to build robust software solutions</p>
       </div>
 
       <div className="mt-8 flex flex-wrap justify-center gap-2">
@@ -47,8 +47,8 @@ export default function Skills() {
             onClick={() => setActive(f.key)}
             className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
               active === f.key
-                ? "bg-sky-500 text-white shadow-md shadow-sky-200"
-                : "bg-white text-slate-600 ring-1 ring-slate-200 hover:text-sky-600"
+                ? "bg-red-600 text-white shadow-md shadow-red-900/50"
+                : "bg-zinc-900/70 text-zinc-400 ring-1 ring-red-900/40 hover:text-red-400 backdrop-blur-sm"
             }`}
           >
             {f.label}
@@ -60,12 +60,12 @@ export default function Skills() {
         {visible.map((skill) => (
           <div
             key={skill.name}
-            className="group flex items-start gap-4 rounded-2xl bg-white/70 p-5 shadow-sm ring-1 ring-slate-200/70 backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-sky-100"
+            className="group flex items-start gap-4 rounded-2xl bg-zinc-900/70 p-5 shadow-lg shadow-red-950/20 ring-1 ring-red-900/40 backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/30 hover:ring-red-700/50"
           >
             <span className="text-2xl">{skill.icon}</span>
             <div>
-              <h4 className="font-semibold text-slate-900">{skill.name}</h4>
-              <p className="mt-1 text-sm text-slate-500">{skill.desc}</p>
+              <h4 className="font-semibold text-white">{skill.name}</h4>
+              <p className="mt-1 text-sm text-zinc-500">{skill.desc}</p>
             </div>
           </div>
         ))}

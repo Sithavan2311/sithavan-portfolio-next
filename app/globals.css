@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --muted: #64748b;
-  --accent: #0ea5e9;
-  --border: #e2e8f0;
+  --background: #050505;
+  --foreground: #fafafa;
+  --muted: #a1a1aa;
+  --accent: #ef4444;
+  --accent-dark: #991b1b;
+  --accent-deep: #7f1d1d;
+  --border: #262626;
+  --card: rgba(22, 22, 22, 0.7);
 }
 
 @theme inline {
@@ -13,6 +16,8 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-deep: var(--accent-deep);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -29,7 +34,7 @@ body {
 }
 
 ::selection {
-  background: rgba(14, 165, 233, 0.15);
+  background: rgba(239, 68, 68, 0.25);
   color: var(--foreground);
 }
 
@@ -53,4 +58,18 @@ body {
 
 .fade-up {
   animation: fadeUp 0.7s ease-out both;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3), 0 0 40px rgba(239, 68, 68, 0.1); }
+  50% { box-shadow: 0 0 32px rgba(239, 68, 68, 0.55), 0 0 64px rgba(239, 68, 68, 0.2); }
+}
+
+.glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+/* Subtle red radial glow overlaying the fixed 3D canvas */
+.background-glow {
+  background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(127, 29, 29, 0.22), transparent 70%);
 }
