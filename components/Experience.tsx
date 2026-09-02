@@ -2,8 +2,19 @@ import TiltCard from "./TiltCard";
 
 const EXPERIENCES = [
   {
+    date: "Jun 2026 – Present | Freelance",
+    role: "QA Automation Tester (Freelance)",
+    company: "Independent Freelance Projects",
+    stack: ["Playwright", "Postman", "TypeScript", "API Testing", "CI"],
+    points: [
+      "Design and maintain end-to-end UI automation suites with Playwright covering critical user journeys for web applications.",
+      "Build API test collections and environments in Postman, including request chaining and automated token capture.",
+      "Run regression suites in CI pipelines and report actionable, clear defect findings.",
+    ],
+  },
+  {
     date: "Nov 2025 – Jun 2026 | Remote",
-    role: "Java Developer (8 Months)",
+    role: "Jr Software Engineer (8 Months)",
     company: "Qiaben Technologies (Qiaben Health Care Solutions)",
     stack: ["Java", "Spring Boot", "Next.js", "React", "TypeScript", "PostgreSQL", "JWT", "FHIR"],
     points: [
@@ -33,7 +44,7 @@ export default function Experience() {
         <h2 className="text-3xl font-bold text-white md:text-4xl">
           Professional <span className="text-red-500">Experience</span>
         </h2>
-        <p className="mt-3 text-zinc-500">My hands-on industry background building production software</p>
+        <p className="mt-3 text-zinc-500">My hands-on industry background building production software — and testing it too</p>
       </div>
 
       <div className="relative mx-auto mt-14 max-w-3xl border-l-2 border-red-900/60 pl-8">

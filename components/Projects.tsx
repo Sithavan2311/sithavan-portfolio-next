@@ -18,7 +18,7 @@ const PROJECTS = [
     title: "Campus Recruitment System",
     tags: ["Main Project", "Java Desktop", "MySQL", "JDBC"],
     desc: "Java desktop application for university placement cells to manage student profiles, job postings, recruiter scheduling, and application tracking.",
-    highlight: "Academic Major Project | B.Tech IT",
+    highlight: "Academic Major Project | B.Tech in Information Technology",
     points: [
       "Centralized student & recruiter profile management",
       "Job postings with eligibility & scheduling",

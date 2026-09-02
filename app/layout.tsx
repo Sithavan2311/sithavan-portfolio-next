@@ -15,20 +15,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sithavan S | Java Software Developer",
+  title: "Sithavan S | Jr Software Engineer",
   description:
-    "Sithavan S is a Java Software Developer with 8+ months hands-on experience in Spring Boot microservices, REST APIs, and full-stack healthcare applications (EHR).",
+    "Sithavan S is a Jr Software Engineer with 8 months hands-on experience at Qiaben Technologies in Spring Boot microservices, REST APIs, and full-stack healthcare applications (EHR), plus freelance QA automation testing with Postman and Playwright.",
   keywords: [
     "Sithavan Portfolio",
-    "Java Developer Chennai",
+    "Jr Software Engineer Chennai",
     "Spring Boot",
     "React Developer",
     "Next.js",
-    "Full-Stack Developer",
+    "QA Automation",
   ],
   openGraph: {
-    title: "Sithavan S | Java Software Developer",
-    description: "Java Software Developer specializing in Spring Boot microservices, React, Next.js, and EHR systems.",
+    title: "Sithavan S | Jr Software Engineer",
+    description: "Jr Software Engineer specializing in Spring Boot microservices, React, Next.js, EHR systems, and Playwright QA automation.",
     type: "website",
   },
 };

@@ -100,7 +100,7 @@ export default function Contact() {
                     required
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="Hi Sithavan, I'd like to discuss a Java Developer position..."
+                    placeholder="Hi Sithavan, I'd like to discuss a Jr Software Engineer / QA role..."
                     rows={4}
                     className="w-full resize-none rounded-xl border border-zinc-700 bg-black/60 px-4 py-3 text-white outline-none transition-colors placeholder:text-zinc-600 focus:border-red-500 focus:ring-2 focus:ring-red-900"
                   />

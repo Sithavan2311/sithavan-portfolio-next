@@ -29,7 +29,7 @@ export default function Navbar() {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <a href="#" className="text-xl font-bold tracking-tight text-white">
-          Sithavan<span className="text-red-500">.dev</span>
+          Sithavan <span className="text-red-500">Portfolio</span>
         </a>
 
         <ul className="hidden items-center gap-8 md:flex">
