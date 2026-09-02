@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
   { href: "#about", label: "About" },
@@ -21,6 +22,9 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const pathname = usePathname();
+  if (pathname === "/") return null;
 
   return (
     <header
